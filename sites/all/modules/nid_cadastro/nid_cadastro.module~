@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Formulário de Contato
+ */
+
+/**
+ * Implementa hook_menu().
+ */
+
+function nid_cadastro_menu() {
+	$items['nid_cadastro']= array(
+					'title'	=> 'Cadastro',
+					'page callback' => 'drupal_get_form',
+					'page arguments'=> array('nid_cadastro_nameform'),
+					'access callback' => TRUE,
+					'menu_name' => 'main-menu',
+					'type'	=> MENU_NORMAL_ITEM,
+					'weight' => 9,
+					);
+	return $items;
+}
+
+/**
+ * Define o formulário
+ */
+
+function nid_cadastro_nameform() {
+/*	$form['dados_pessoais']=array(
+		'#title' => t('Dados Pessoais'),
+		'#type' => 'fieldset',
+		'#description' => t('Dados para contato.')
+	);
+*/
+	$form['user_name'] = array (
+		'#title'	=> t('Seu nome'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Por favor, digite seu nome.')
+	);
+
+	$form['user_email'] = array (
+		'#title'	=> t('Email'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Email para contato')
+	);
+
+	$form['user_city'] = array (
+		'#title'	=> t('Cidade'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Cidade de origem.')
+	);
+
+/*	$form['projeto']=array(
+		'#title' => t('Dados do Projeto'),
+		'#type' => 'fieldset',
+		'#description' => t('Dados do Projeto.')
+	);
+
+	$form['projeto_name'] = array (
+		'#title'	=> t('Título do projeto'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Por favor, o título do projeto')
+	);
+
+	$form['projeto_descricao'] = array (
+		'#title'	=> t('Apresentação'),
+		'#type'	=> 'textarea',
+		'#description' =>	t('Faça um pequeno texto de apresentação do projeto.'),
+		'#rows'	=>	7
+	);
+*/
+	$form['submit'] = array (
+		'#type'		=>	'submit',
+		'#value'	=>	t('Enviar informações')
+	);
+
+	return $form;
+}
+
+/**
+ * Valida o formulário
+ */
+
+function contato_nameform_validate($form, $form_state) {
+	if ($form_state['values']['user_name'] == 'King Kong') {
+		//Notifica a API de formulários que a validação deste campo falhou.
+		form_set_error('user_name', t('King Kong não tem permissão para usar este formulário.'));
+	}
+}
+
+/**
+ * Manipula submissão de formulário pós-validação.
+ */
+function contato_nameform_submit($form, $form_state) {
+	$name	=	$form_state['values']['user_name'];
+	drupal_set_message(t('Obrigado por preencher o formulário, %name', array('%name' => $name)));
+}

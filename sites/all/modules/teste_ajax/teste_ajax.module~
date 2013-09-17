@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Formulário de Contato
+ */
+
+/**
+ * Implementa hook_menu().
+ */
+
+function contato_menu() {
+	$items['contato']= array(
+					'title'	=> 'Contato',
+					'page callback' => 'drupal_get_form',
+					'page arguments'=> array('contato_nameform'),
+					'access callback' => TRUE,
+					'menu_name' => 'main-menu',
+					'type'	=> MENU_NORMAL_ITEM,
+					'weight' => 7,
+					);
+	return $items;
+}
+
+/**
+ * Define o formulário
+ */
+
+function contato_nameform() {
+	$form['user_name'] = array (
+		'#title'	=> t('Seu nome'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Por favor, digite seu nome.'),
+	);
+
+	$form['user_email'] = array (
+		'#title'	=> t('Email'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Email para contato'),
+	);
+
+	$form['user_city'] = array (
+		'#title'	=> t('Cidade'),
+		'#type'	=> 'textfield',
+		'#description'	=>	t('Cidade de origem.'),
+	);
+
+	$form['user_message'] = array (
+		'#title'	=> t('Mensagem'),
+		'#type'	=> 'textarea',
+		'#description'	=>	t('O que quer nos contar?'),
+		'#rows'	=>	7,
+	);
+
+	$form['submit'] = array (
+		'#type'		=>	'submit',
+		'#value'	=>	t('Enviar'),
+	);
+
+	return $form;
+}
+
+/**
+ * Valida o formulário
+ */
+
+function contato_nameform_validate($form, $form_state) {
+	if ($form_state['values']['user_name'] == 'King Kong') {
+		//Notifica a API de formulários que a validação deste campo falhou.
+		form_set_error('user_name', t('King Kong não tem permissão para usar este formulário.'));
+	}
+}
+
+/**
+ * Manipula submissão de formulário pós-validação.
+ */
+function contato_nameform_submit($form, $form_state) {
+	$name	=	$form_state['values']['user_name'];
+	drupal_set_message(t('Obrigado por preencher o formulário, %name', array('%name' => $name)));
+}

@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Página do NID
+ */
+
+/**
+ * Implementa hook_menu().
+ */
+
+function nucleo_menu() {
+	$items['nucleo']= array(
+					'title'	=> 'Núcleo de Informação e Divulgação',
+					'page callback' => 'pagina_do_nid',
+					'access callback' => TRUE,
+					'menu_name' => 'main-menu',
+					'type'	=> MENU_NORMAL_ITEM,
+					'weight' => -43,
+					);
+	return $items;
+}
+function pagina_do_nid() {
+  return t('Aqui está o NID');
+}
+
